@@ -4,9 +4,9 @@ const feedRoute = require('./feedback');
 
 const router = express.Router();
 
-module.exports = () => {
-  router.use('/speekers', speakersRoute());
-  router.use('/feedback', feedRoute());
+module.exports = (service) => {
+  router.use('/speakers', speakersRoute(service));
+  router.use('/feedback', feedRoute(service));
 
   router.get('/', (req, rsp) => {
     rsp.render('pages/index', { pageTitle: 'Welcome' });

@@ -1,6 +1,11 @@
 const express = require('express');
 const path = require('path');
 const routes = require('./routes');
+const FeedbackService = require('./services/FeedbackService');
+const SpeakerService = require('./services/SpeakerService');
+
+const feedbackService = new FeedbackService('./data/feedback.json');
+const speakerService = new SpeakerService('./data/speakers.json');
 
 const app = express();
 const SERVER_PORT = 3000;
@@ -13,7 +18,13 @@ app.set('views', path.join(__dirname, './views'));
 // middleware to use the static folder
 app.use(express.static(path.join(__dirname, './static')));
 
-app.use('/', routes());
+app.use(
+  '/',
+  routes({
+    feedbackService,
+    speakerService,
+  })
+);
 
 app.listen(SERVER_PORT, () => {
   console.log(`Listening on port ${SERVER_PORT}`);
